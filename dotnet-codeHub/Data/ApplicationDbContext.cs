@@ -5,7 +5,7 @@ namespace dotnet_codeHub.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             
