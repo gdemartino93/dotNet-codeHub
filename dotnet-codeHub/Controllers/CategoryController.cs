@@ -70,7 +70,44 @@ namespace dotnet_codeHub.Controllers
             {
                 return NotFound();
             }
+        }
+        public IActionResult Delete(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            Category category = _db.Categories.FirstOrDefault(c => c.Id == id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+        [HttpPost]
+        [ActionName("Delete")]
+        public IActionResult DeleteCategory(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Category category = _db.Categories.FirstOrDefault(c => c.Id == id);
+            if(category == null)
+            {
+                return NotFound();
+            }
+            _db.Categories.Remove(category);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
+        public IActionResult DeleteAll()
+        {
+            var records = _db.Categories.ToList();
+            _db.Categories.RemoveRange(records);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
