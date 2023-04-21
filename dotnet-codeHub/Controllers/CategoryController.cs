@@ -34,7 +34,6 @@ namespace dotnet_codeHub.Controllers
 				ModelState.AddModelError("Name", "Categoria già esistente");
 			}
 
-
 			if (ModelState.IsValid)
             {
 				_db.Categories.Add(category);
@@ -45,6 +44,10 @@ namespace dotnet_codeHub.Controllers
             {
                 return View();
             }
+        }
+        public IActionResult Edit()
+        {
+            return View();
         }
     }
 }

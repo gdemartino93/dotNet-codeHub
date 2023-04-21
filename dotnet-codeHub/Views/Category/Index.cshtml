@@ -10,17 +10,23 @@
                 <th scope="col">Id</th>
                 <th scope="col">Nome</th>
                 <th scope="col">Display Order</th>
+                <th scope="col" class="asd"></th>
             </tr>
         </thead>
-        <tbody class="myTableHome">
+        <tbody>
             @foreach (var category in Model)
             {
-                <tr>
+                <tr class="table-category">
                     <th scope="row">@category.Id</th>
                     <td class="fw-bold">@category.Name</td>
                     <td>@category.DisplayOrder</td>
+                    <td class="icon-box d-flex gap-2">
+                        <a asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-outline-warning"><i class="bi bi-pencil"></i></a>
+                        <a asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></a>
+                    </td>
                 </tr>
             }
+
         </tbody>
     </table>
 </div>
