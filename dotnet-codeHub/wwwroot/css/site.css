@@ -1,3 +1,11 @@
 .table-category {
     vertical-align:middle
 }
+.categorie-vuote {
+    margin: 50px auto;
+    height: 200px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
