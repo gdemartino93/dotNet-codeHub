@@ -24,9 +24,25 @@ namespace dotnet_codeHub.Controllers
         [HttpPost]
         public IActionResult Create(Category category)
         {
-            _db.Categories.Add(category);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+           if(_db.Categories.Any( n => n.Name.ToLower().Replace(" ","") == category.Name.ToLower().Replace(" ","")))
+            {
+                ModelState.AddModelError("Name","Categoria già esistente");
+            }
+            if (category.Name == null)
+            {
+                ModelState.AddModelError("Name", "Il nome non può essere vuoto");
+            }
+
+            if (ModelState.IsValid)
+            {
+				_db.Categories.Add(category);
+				_db.SaveChanges();
+				return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
         }
     }
 }

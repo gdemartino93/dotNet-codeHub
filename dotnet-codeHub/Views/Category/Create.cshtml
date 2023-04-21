@@ -1,7 +1,6 @@
 ﻿@model Category
 <div class="container d-flex justify-content-center">
 	<form class="col-12 col-md-8 col-lg-6" method="POST">
-		@*<div asp-validation-summary="All" class="text-center text-danger"></div>*@  @*Riepilogo di tutte validazioni*@
 		<div class="mb-3 ">
 			<label asp-for="Name" class="form-label">Nome categoria</label>
 			<input asp-for="Name" type="text" class="form-control" placeholder="Inserisci il nome delle categoria">
@@ -15,8 +14,8 @@
 
 		<div class="text-end">
 			<button asp-controller="Category" asp-action="Create" class="btn btn-primary text-end">Aggiungi</button>
-@*			<button type="button" onclick="location.href='@Url.Action("Index", "Category")'" class="btn btn-outline-warning">Torna alle categorie</button>
-*@		</div>
+			<button type="button" onclick="location.href='@Url.Action("Index", "Category")'" class="btn btn-outline-warning">Torna alle categorie</button>
+		</div>
 		
 	</form>
 </div>
