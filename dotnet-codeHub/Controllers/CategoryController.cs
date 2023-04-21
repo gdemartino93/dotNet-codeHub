@@ -1,6 +1,7 @@
 ﻿using dotnet_codeHub.Data;
 using dotnet_codeHub.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace dotnet_codeHub.Controllers
 {
@@ -24,16 +25,17 @@ namespace dotnet_codeHub.Controllers
         [HttpPost]
         public IActionResult Create(Category category)
         {
-           if(_db.Categories.Any( n => n.Name.ToLower().Replace(" ","") == category.Name.ToLower().Replace(" ","")))
-            {
-                ModelState.AddModelError("Name","Categoria già esistente");
-            }
-            if (category.Name == null)
-            {
-                ModelState.AddModelError("Name", "Il nome non può essere vuoto");
-            }
+			if (String.IsNullOrWhiteSpace(category.Name))
+			{
+				ModelState.AddModelError("Name", "Il nome è obbligatorio");
+			}
+			else if (_db.Categories.Any(n => n.Name.ToLower().Replace(" ", "") == category.Name.ToLower().Replace(" ", "")))
+			{
+				ModelState.AddModelError("Name", "Categoria già esistente");
+			}
 
-            if (ModelState.IsValid)
+
+			if (ModelState.IsValid)
             {
 				_db.Categories.Add(category);
 				_db.SaveChanges();
