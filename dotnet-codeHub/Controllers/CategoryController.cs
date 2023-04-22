@@ -8,15 +8,15 @@ namespace codeHub.DataAccess.Controllers
 {
     public class CategoryController : Controller
     {
-        protected readonly ICategoryRepository _categoryRepository;
-        public CategoryController(ICategoryRepository db)
+        protected readonly IUnitOfWork _unitOfWork;
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _categoryRepository = db;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            List<Category> categoryList = _categoryRepository.GetAll().ToList();
+            List<Category> categoryList = _unitOfWork.Category.GetAll().ToList();
             return View(categoryList);
         }
         public IActionResult Create()
@@ -31,7 +31,7 @@ namespace codeHub.DataAccess.Controllers
 				ModelState.AddModelError("Name", "Il nome è obbligatorio");
                 TempData["error"] = "Correggi i campi richiesti";
             }
-			else if (_categoryRepository.Get(n => n.Name.ToLower().Replace(" ", "") == category.Name.ToLower().Replace(" ", "")) != null)
+			else if (_unitOfWork.Category.Get(n => n.Name.ToLower().Replace(" ", "") == category.Name.ToLower().Replace(" ", "")) != null)
 			{
 				ModelState.AddModelError("Name", "Categoria già esistente");
                 TempData["error"] = "Correggi i campi richiesti";
@@ -39,8 +39,8 @@ namespace codeHub.DataAccess.Controllers
 
 			if (ModelState.IsValid)
             {
-				_categoryRepository.Add(category);
-				_categoryRepository.Save();
+				_unitOfWork.Category.Add(category);
+				_unitOfWork.Save();
                 TempData["success"] = "Categoria aggiunta!";
                 return RedirectToAction("Index");
             }
@@ -55,7 +55,7 @@ namespace codeHub.DataAccess.Controllers
             if((id == null) && (id == 0)){
                 return NotFound();
             }
-            Category category = _categoryRepository.Get(c => c.Id == id);
+            Category category = _unitOfWork.Category.Get(c => c.Id == id);
             if (category == null)
             {
                 return NotFound();
@@ -67,8 +67,8 @@ namespace codeHub.DataAccess.Controllers
         {
             if (ModelState.IsValid)
 			{
-                _categoryRepository.Update(category);
-                _categoryRepository.Save();
+                _unitOfWork.Category.Update(category);
+                _unitOfWork.Save();
                 TempData["success"] = "Categoria modificata!";
                 return RedirectToAction("Index");
             }
@@ -83,7 +83,7 @@ namespace codeHub.DataAccess.Controllers
             {
                 return NotFound();
             }
-            Category category = _categoryRepository.Get(c => c.Id == id);
+            Category category = _unitOfWork.Category.Get(c => c.Id == id);
             if (category == null)
             {
                 return NotFound();
@@ -98,22 +98,22 @@ namespace codeHub.DataAccess.Controllers
             {
                 return NotFound();
             }
-            Category category = _categoryRepository.Get(c => c.Id == id);
+            Category category = _unitOfWork.Category.Get(c => c.Id == id);
             if(category == null)
             {
                 return NotFound();
             }
-            _categoryRepository.Remove(category);
-            _categoryRepository.Save();
+            _unitOfWork.Category.Remove(category);
+            _unitOfWork.Save();
             TempData["success"] = "Categoria eliminata!";
             return RedirectToAction("Index");
         }
 
         public IActionResult DeleteAll()
         {
-            var records = _categoryRepository.GetAll();
-            _categoryRepository.RemoveRange(records);
-            _categoryRepository.Save();
+            var records = _unitOfWork.Category.GetAll();
+            _unitOfWork.Category.RemoveRange(records);
+            _unitOfWork.Save();
             TempData["success"] = "Categorie eliminate";
             return RedirectToAction("Index");
         }
