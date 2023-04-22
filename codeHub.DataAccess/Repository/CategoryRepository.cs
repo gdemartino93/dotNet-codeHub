@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace codeHub.DataAccess.Repository
 {
-    internal class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
         private ApplicationDbContext _db;
         public CategoryRepository(ApplicationDbContext db) : base(db)
