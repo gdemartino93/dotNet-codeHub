@@ -15,7 +15,7 @@ namespace dotnet_codeHub.Controllers
 
         public IActionResult Index()
         {
-            List<Category> categoryList = _db.Categories.OrderBy(c => c.Id).ToList();
+            List<Category> categoryList = _db.Categories.OrderBy(c => c.DisplayOrder).ToList();
             return View(categoryList);
         }
         public IActionResult Create()
