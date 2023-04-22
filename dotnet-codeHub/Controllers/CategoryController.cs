@@ -28,11 +28,13 @@ namespace dotnet_codeHub.Controllers
 			if (String.IsNullOrWhiteSpace(category.Name))
 			{
 				ModelState.AddModelError("Name", "Il nome è obbligatorio");
-			}
+                TempData["error"] = "Correggi i campi richiesti";
+            }
 			else if (_db.Categories.Any(n => n.Name.ToLower().Replace(" ", "") == category.Name.ToLower().Replace(" ", "")))
 			{
 				ModelState.AddModelError("Name", "Categoria già esistente");
-			}
+                TempData["error"] = "Correggi i campi richiesti";
+            }
 
 			if (ModelState.IsValid)
             {
@@ -43,6 +45,7 @@ namespace dotnet_codeHub.Controllers
             }
             else
             {
+                TempData["error"] = "Correggi i campi richiesti";
                 return View();
             }
         }
@@ -110,6 +113,7 @@ namespace dotnet_codeHub.Controllers
             var records = _db.Categories.ToList();
             _db.Categories.RemoveRange(records);
             _db.SaveChanges();
+            TempData["success"] = "Categorie eliminate";
             return RedirectToAction("Index");
         }
     }
