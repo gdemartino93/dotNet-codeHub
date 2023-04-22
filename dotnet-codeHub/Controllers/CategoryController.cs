@@ -1,4 +1,5 @@
 ﻿using codeHub.DataAccess.Data;
+using codeHub.DataAccess.Repository.IRepository;
 using codeHub.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -7,15 +8,15 @@ namespace codeHub.DataAccess.Controllers
 {
     public class CategoryController : Controller
     {
-        protected readonly ApplicationDbContext _db;
-        public CategoryController(ApplicationDbContext db)
+        protected readonly ICategoryRepository _categoryRepository;
+        public CategoryController(ICategoryRepository db)
         {
-            _db = db;
+            _categoryRepository = db;
         }
 
         public IActionResult Index()
         {
-            List<Category> categoryList = _db.Categories.OrderBy(c => c.DisplayOrder).ToList();
+            List<Category> categoryList = _categoryRepository.GetAll().ToList();
             return View(categoryList);
         }
         public IActionResult Create()
@@ -30,7 +31,7 @@ namespace codeHub.DataAccess.Controllers
 				ModelState.AddModelError("Name", "Il nome è obbligatorio");
                 TempData["error"] = "Correggi i campi richiesti";
             }
-			else if (_db.Categories.Any(n => n.Name.ToLower().Replace(" ", "") == category.Name.ToLower().Replace(" ", "")))
+			else if (_categoryRepository.Get(n => n.Name.ToLower().Replace(" ", "") == category.Name.ToLower().Replace(" ", "")) != null)
 			{
 				ModelState.AddModelError("Name", "Categoria già esistente");
                 TempData["error"] = "Correggi i campi richiesti";
@@ -38,8 +39,8 @@ namespace codeHub.DataAccess.Controllers
 
 			if (ModelState.IsValid)
             {
-				_db.Categories.Add(category);
-				_db.SaveChanges();
+				_categoryRepository.Add(category);
+				_categoryRepository.Save();
                 TempData["success"] = "Categoria aggiunta!";
                 return RedirectToAction("Index");
             }
@@ -54,7 +55,7 @@ namespace codeHub.DataAccess.Controllers
             if((id == null) && (id == 0)){
                 return NotFound();
             }
-            Category category = _db.Categories.FirstOrDefault(c => c.Id == id);
+            Category category = _categoryRepository.Get(c => c.Id == id);
             if (category == null)
             {
                 return NotFound();
@@ -66,8 +67,8 @@ namespace codeHub.DataAccess.Controllers
         {
             if (ModelState.IsValid)
 			{
-				_db.Categories.Update(category);
-				_db.SaveChanges();
+                _categoryRepository.Update(category);
+                _categoryRepository.Save();
                 TempData["success"] = "Categoria modificata!";
                 return RedirectToAction("Index");
             }
@@ -82,7 +83,7 @@ namespace codeHub.DataAccess.Controllers
             {
                 return NotFound();
             }
-            Category category = _db.Categories.FirstOrDefault(c => c.Id == id);
+            Category category = _categoryRepository.Get(c => c.Id == id);
             if (category == null)
             {
                 return NotFound();
@@ -97,22 +98,22 @@ namespace codeHub.DataAccess.Controllers
             {
                 return NotFound();
             }
-            Category category = _db.Categories.FirstOrDefault(c => c.Id == id);
+            Category category = _categoryRepository.Get(c => c.Id == id);
             if(category == null)
             {
                 return NotFound();
             }
-            _db.Categories.Remove(category);
-            _db.SaveChanges();
+            _categoryRepository.Remove(category);
+            _categoryRepository.Save();
             TempData["success"] = "Categoria eliminata!";
             return RedirectToAction("Index");
         }
 
         public IActionResult DeleteAll()
         {
-            var records = _db.Categories.ToList();
-            _db.Categories.RemoveRange(records);
-            _db.SaveChanges();
+            var records = _categoryRepository.GetAll();
+            _categoryRepository.RemoveRange(records);
+            _categoryRepository.Save();
             TempData["success"] = "Categorie eliminate";
             return RedirectToAction("Index");
         }
