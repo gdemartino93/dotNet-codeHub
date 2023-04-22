@@ -1,4 +1,4 @@
-﻿using dotnet_codeHub.Models;
+﻿using codeHub.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

@@ -1,4 +1,4 @@
-namespace dotnet_codeHub.Models
+namespace codeHub.Models
 {
     public class ErrorViewModel
     {

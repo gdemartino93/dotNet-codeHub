@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using dotnet_codeHub.Data;
+using codeHub.DataAccess.Data;
 
 #nullable disable
 
-namespace dotnet_codeHub.Migrations
+namespace codeHub.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20230421193616_seedingCategoryTable")]

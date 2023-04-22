@@ -2,20 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using dotnet_codeHub.Data;
+using codeHub.DataAccess.Data;
 
 #nullable disable
 
-namespace dotnet_codeHub.Migrations
+namespace codeHub.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230421193212_firstMigration")]
-    partial class firstMigration
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,6 +45,32 @@ namespace dotnet_codeHub.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Java World",
+                            DisplayOrder = 1,
+                            IsVisible = true,
+                            Name = "Java"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "C# World",
+                            DisplayOrder = 1,
+                            IsVisible = true,
+                            Name = "C#"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "CSS World",
+                            DisplayOrder = 1,
+                            IsVisible = true,
+                            Name = "CSS"
+                        });
                 });
 #pragma warning restore 612, 618
         }

@@ -1,9 +1,9 @@
-﻿using dotnet_codeHub.Data;
-using dotnet_codeHub.Models;
+﻿using codeHub.DataAccess.Data;
+using codeHub.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
-namespace dotnet_codeHub.Controllers
+namespace codeHub.DataAccess.Controllers
 {
     public class CategoryController : Controller
     {

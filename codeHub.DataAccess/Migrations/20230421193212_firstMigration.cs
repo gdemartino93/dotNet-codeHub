@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace dotnet_codeHub.Migrations
+namespace codeHub.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class firstMigration : Migration

@@ -1,4 +1,4 @@
-using dotnet_codeHub.Data;
+using codeHub.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 

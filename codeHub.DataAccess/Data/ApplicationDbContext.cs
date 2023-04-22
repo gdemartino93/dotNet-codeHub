@@ -1,7 +1,7 @@
-﻿using dotnet_codeHub.Models;
+﻿using codeHub.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace dotnet_codeHub.Data
+namespace codeHub.DataAccess.Data
 {
     public class ApplicationDbContext : DbContext
     {
