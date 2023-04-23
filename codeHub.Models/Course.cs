@@ -20,7 +20,10 @@ namespace codeHub.Models
         public double Price { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? LastUpdatedAt { get; set; }
-
-
+        public Course()
+        {
+            CreatedAt = DateTime.Now;
+        }
     }
+
 }
