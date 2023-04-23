@@ -1,4 +1,5 @@
-﻿using System;
+﻿using codeHub.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace codeHub.DataAccess.Repository.IRepository
 {
-    public interface IUnitOfWork
+    public interface ICourseRepository : IRepository<Course>
     {
-        ICategoryRepository Category { get; }
-        ICourseRepository Course { get; }
-
-        void Save();
+        void Update(Course course);
     }
 }

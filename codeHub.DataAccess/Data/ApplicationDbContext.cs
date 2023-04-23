@@ -24,7 +24,6 @@ namespace codeHub.DataAccess.Data
                 new Course()
                 {
                     Id = 1,
-                    Author = "John Doe",
                     CreatedAt = new DateTime(2022, 1, 10),
                     Description = "Learn the fundamentals of computer science with Python",
                     LastUpdatedAt = null,
@@ -37,7 +36,6 @@ namespace codeHub.DataAccess.Data
                 new Course()
                 {
                     Id = 2,
-                    Author = "Jane Smith",
                     CreatedAt = new DateTime(2022, 2, 20),
                     Description = "Learn how to build scalable and performant web applications with React",
                     LastUpdatedAt = new DateTime(2022, 3, 5),
@@ -50,7 +48,6 @@ namespace codeHub.DataAccess.Data
                 new Course()
                 {
                     Id = 3,
-                    Author = "Lucia Rossi",
                     CreatedAt = new DateTime(2022, 4, 1),
                     Description = "Learn how to build full-stack web applications with Node.js and MongoDB",
                     LastUpdatedAt = null,
@@ -63,7 +60,6 @@ namespace codeHub.DataAccess.Data
                 new Course()
                 {
                     Id = 4,
-                    Author = "Mario Bianchi",
                     CreatedAt = new DateTime(2022, 3, 15),
                     Description = "Learn how to use machine learning to analyze and visualize data",
                     LastUpdatedAt = new DateTime(2022, 4, 10),

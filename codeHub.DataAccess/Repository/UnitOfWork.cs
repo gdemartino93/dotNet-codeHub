@@ -12,10 +12,12 @@ namespace codeHub.DataAccess.Repository
     {
         private ApplicationDbContext _db;
         public ICategoryRepository Category { get; private set; }
+        public ICourseRepository Course { get; private set; }
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             Category = new CategoryRepository(_db);
+            Course = new CourseRepository(_db);
         }
         
 
