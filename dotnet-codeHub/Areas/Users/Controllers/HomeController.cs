@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace dotnet_codeHub.Controllers
+namespace dotnet_codeHub.Areas.Users.Controllers
 {
+    [Area("Users")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

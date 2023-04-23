@@ -36,7 +36,7 @@ namespace dotnet_codeHub
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{area=Users}/{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }

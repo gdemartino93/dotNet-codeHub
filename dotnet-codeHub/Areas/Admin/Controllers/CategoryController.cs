@@ -4,8 +4,9 @@ using codeHub.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
-namespace codeHub.DataAccess.Controllers
+namespace dotnet_codeHub.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         protected readonly IUnitOfWork _unitOfWork;
@@ -26,21 +27,21 @@ namespace codeHub.DataAccess.Controllers
         [HttpPost]
         public IActionResult Create(Category category)
         {
-			if (String.IsNullOrWhiteSpace(category.Name))
-			{
-				ModelState.AddModelError("Name", "Il nome è obbligatorio");
+            if (string.IsNullOrWhiteSpace(category.Name))
+            {
+                ModelState.AddModelError("Name", "Il nome è obbligatorio");
                 TempData["error"] = "Correggi i campi richiesti";
             }
-			else if (_unitOfWork.Category.Get(n => n.Name.ToLower().Replace(" ", "") == category.Name.ToLower().Replace(" ", "")) != null)
-			{
-				ModelState.AddModelError("Name", "Categoria già esistente");
+            else if (_unitOfWork.Category.Get(n => n.Name.ToLower().Replace(" ", "") == category.Name.ToLower().Replace(" ", "")) != null)
+            {
+                ModelState.AddModelError("Name", "Categoria già esistente");
                 TempData["error"] = "Correggi i campi richiesti";
             }
 
-			if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-				_unitOfWork.Category.Add(category);
-				_unitOfWork.Save();
+                _unitOfWork.Category.Add(category);
+                _unitOfWork.Save();
                 TempData["success"] = "Categoria aggiunta!";
                 return RedirectToAction("Index");
             }
@@ -52,7 +53,8 @@ namespace codeHub.DataAccess.Controllers
         }
         public IActionResult Edit(int? id)
         {
-            if((id == null) && (id == 0)){
+            if (id == null && id == 0)
+            {
                 return NotFound();
             }
             Category category = _unitOfWork.Category.Get(c => c.Id == id);
@@ -66,7 +68,7 @@ namespace codeHub.DataAccess.Controllers
         public IActionResult Edit(Category category)
         {
             if (ModelState.IsValid)
-			{
+            {
                 _unitOfWork.Category.Update(category);
                 _unitOfWork.Save();
                 TempData["success"] = "Categoria modificata!";
@@ -79,7 +81,7 @@ namespace codeHub.DataAccess.Controllers
         }
         public IActionResult Delete(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -99,7 +101,7 @@ namespace codeHub.DataAccess.Controllers
                 return NotFound();
             }
             Category category = _unitOfWork.Category.Get(c => c.Id == id);
-            if(category == null)
+            if (category == null)
             {
                 return NotFound();
             }
