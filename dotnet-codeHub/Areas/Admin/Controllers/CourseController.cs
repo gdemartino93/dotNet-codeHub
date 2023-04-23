@@ -1,6 +1,7 @@
 ﻿using codeHub.DataAccess.Repository.IRepository;
 using codeHub.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace dotnet_codeHub.Areas.Admin.Controllers
 {
@@ -15,10 +16,17 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
         public IActionResult Index()
         {
             List<Course> courseList = _unitOfWork.Course.GetAll().ToList();
+
             return View(courseList);
         }
         public IActionResult Create()
         {
+            IEnumerable<SelectListItem> categoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+            {
+                Text = u.Name,
+                Value = u.Id.ToString(),
+            });
+            ViewBag.CategoryList = categoryList;
             return View();
         }
         [HttpPost]

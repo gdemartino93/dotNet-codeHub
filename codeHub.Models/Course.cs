@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,9 @@ namespace codeHub.Models
         public double Price { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? LastUpdatedAt { get; set; }
+        public int CategoryId { get; set; }
+        [ForeignKey("Categoryid")]
+        public Category Category { get; set; }
         public Course()
         {
             CreatedAt = DateTime.Now;
