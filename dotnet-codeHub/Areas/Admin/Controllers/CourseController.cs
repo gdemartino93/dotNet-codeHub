@@ -10,9 +10,12 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
     public class CourseController : Controller
     {
         protected readonly IUnitOfWork _unitOfWork;
-        public CourseController(IUnitOfWork unitOfWork)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public CourseController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
+
         }
         public IActionResult Index()
         {
@@ -61,6 +64,18 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
             {
                 if (courseVM.Course.Id == 0)
                 {
+                    string pathWWW = _webHostEnvironment.WebRootPath;
+                    if(file != null)
+                    {
+                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                        string coursePath = Path.Combine(pathWWW, @"images\course");
+                        using (var fileStream = new FileStream(Path.Combine(coursePath, fileName),FileMode.Create))
+                        {
+                            file.CopyTo(fileStream);
+                        }
+                        courseVM.Course.Image = @"\image\course\" + fileName;
+                    }
+
                     _unitOfWork.Course.Add(courseVM.Course);
                     _unitOfWork.Save();
                     TempData["success"] = "Corso creato correttamente";
