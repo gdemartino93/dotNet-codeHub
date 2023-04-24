@@ -6,13 +6,13 @@
         @foreach (var course in Model)
         {
             <div class="ag-courses_item">
-                <a href="#" class="ag-courses-item_link">
+                <a asp-controller="Home" asp-action="Details" asp-route-id="@course.Id" class="ag-courses-item_link">
                     <div class="ag-courses-item_bg"></div>
 
                     <div class="ag-courses-item_title">
                        @course.Title
                     </div>
-                    <a asp-controller="Home" asp-action="Details" asp-route-id="@course.Id"> VAI </a>
+                  
                     <div class="ag-courses-item_date-box">
                         Linguaggio:
                         <span class="ag-courses-item_date">
@@ -24,3 +24,4 @@
         }
         </div>
     </div>
+@*<a asp-controller="Home" asp-action="Details" asp-route-id="@course.Id"> VAI </a>*@
