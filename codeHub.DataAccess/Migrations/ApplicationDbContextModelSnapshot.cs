@@ -83,10 +83,16 @@ namespace codeHub.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastUpdatedAt")
@@ -108,12 +114,15 @@ namespace codeHub.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Courses");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            CategoryId = 1,
                             CreatedAt = new DateTime(2022, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Learn the fundamentals of computer science with Python",
                             Level = "Intermediate",
@@ -124,6 +133,7 @@ namespace codeHub.DataAccess.Migrations
                         new
                         {
                             Id = 2,
+                            CategoryId = 2,
                             CreatedAt = new DateTime(2022, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Learn how to build scalable and performant web applications with React",
                             LastUpdatedAt = new DateTime(2022, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -135,6 +145,7 @@ namespace codeHub.DataAccess.Migrations
                         new
                         {
                             Id = 3,
+                            CategoryId = 3,
                             CreatedAt = new DateTime(2022, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Learn how to build full-stack web applications with Node.js and MongoDB",
                             Level = "Intermediate",
@@ -145,6 +156,7 @@ namespace codeHub.DataAccess.Migrations
                         new
                         {
                             Id = 4,
+                            CategoryId = 1,
                             CreatedAt = new DateTime(2022, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Learn how to use machine learning to analyze and visualize data",
                             LastUpdatedAt = new DateTime(2022, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -153,6 +165,17 @@ namespace codeHub.DataAccess.Migrations
                             Text = "In this course, you will learn how to use machine learning techniques to analyze and visualize data. Topics include: data preprocessing, dimensionality reduction, clustering, classification, and regression. You will also learn how to use popular machine learning libraries such as scikit-learn and TensorFlow. By the end of the course, you will be able to apply machine learning techniques to real-world data analysis and visualization problems.",
                             Title = "Machine Learning for Data Analysis and Visualization"
                         });
+                });
+
+            modelBuilder.Entity("codeHub.Models.Course", b =>
+                {
+                    b.HasOne("codeHub.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

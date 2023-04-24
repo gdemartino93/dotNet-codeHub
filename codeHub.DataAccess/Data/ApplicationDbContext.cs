@@ -30,7 +30,8 @@ namespace codeHub.DataAccess.Data
                     Level = "Intermediate",
                     Price = 50,
                     Text = "This course is designed to teach you the basics of computer science using Python. Topics include: algorithms, data structures, recursion, sorting, and searching. By the end of the course, you will have a strong foundation in computer science and be able to write basic programs in Python.",
-                    Title = "Introduction to Computer Science with Python"
+                    Title = "Introduction to Computer Science with Python",
+                    CategoryId = 1,
                 },
 
                 new Course()
@@ -42,7 +43,8 @@ namespace codeHub.DataAccess.Data
                     Level = "Advanced",
                     Price = 100,
                     Text = "In this course, you will learn how to build modern web applications with React. Topics include: React components, state management with Redux, server-side rendering, and performance optimization. By the end of the course, you will be able to build scalable and performant web applications with React.",
-                    Title = "Mastering React"
+                    Title = "Mastering React",
+                    CategoryId = 2
                 },
 
                 new Course()
@@ -54,7 +56,8 @@ namespace codeHub.DataAccess.Data
                     Level = "Intermediate",
                     Price = 75,
                     Text = "This course teaches you how to build full-stack web applications using Node.js and MongoDB. Topics include: RESTful APIs, authentication and authorization, database design, and deployment. By the end of the course, you will be able to build and deploy a full-stack web application with Node.js and MongoDB.",
-                    Title = "Full-Stack Web Development with Node.js and MongoDB"
+                    Title = "Full-Stack Web Development with Node.js and MongoDB",
+                    CategoryId = 3
                 },
 
                 new Course()
@@ -66,7 +69,8 @@ namespace codeHub.DataAccess.Data
                     Level = "Advanced",
                     Price = 150,
                     Text = "In this course, you will learn how to use machine learning techniques to analyze and visualize data. Topics include: data preprocessing, dimensionality reduction, clustering, classification, and regression. You will also learn how to use popular machine learning libraries such as scikit-learn and TensorFlow. By the end of the course, you will be able to apply machine learning techniques to real-world data analysis and visualization problems.",
-                    Title = "Machine Learning for Data Analysis and Visualization"
+                    Title = "Machine Learning for Data Analysis and Visualization",
+                    CategoryId = 1
                 }
             );
         }

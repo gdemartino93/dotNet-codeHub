@@ -22,8 +22,9 @@ namespace codeHub.Models
         public DateTime CreatedAt { get; set; }
         public DateTime? LastUpdatedAt { get; set; }
         public int CategoryId { get; set; }
-        [ForeignKey("Categoryid")]
+        [ForeignKey("CategoryId")]
         public Category Category { get; set; }
+        public string? Image { get; set; }
         public Course()
         {
             CreatedAt = DateTime.Now;
