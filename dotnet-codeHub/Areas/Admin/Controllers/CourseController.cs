@@ -3,6 +3,7 @@ using codeHub.Models;
 using codeHub.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
 namespace dotnet_codeHub.Areas.Admin.Controllers
 {
@@ -62,42 +63,62 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
             }
             if (ModelState.IsValid)
             {
-                if (courseVM.Course.Id == 0)
+
+                string pathWWW = _webHostEnvironment.WebRootPath;
+                if (file != null)
                 {
-                    string pathWWW = _webHostEnvironment.WebRootPath;
-                    if(file != null)
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string coursePath = Path.Combine(pathWWW, @"images\course");
+                    string filePath = Path.Combine(coursePath, fileName);
+
+                    // cancella la vecchia immagine, se esiste
+                    string oldImagePath = "";
+                    if (courseVM.Course != null)
                     {
-                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                        string coursePath = Path.Combine(pathWWW, @"images\course");
-                        using (var fileStream = new FileStream(Path.Combine(coursePath, fileName),FileMode.Create))
+                        oldImagePath = courseVM.Course.Image?.TrimStart('\\');
+                    }
+                    if (!string.IsNullOrEmpty(oldImagePath))
+                    {
+                        string oldFilePath = Path.Combine(pathWWW, oldImagePath);
+                        if (System.IO.File.Exists(oldFilePath))
                         {
-                            file.CopyTo(fileStream);
+                            System.IO.File.Delete(oldFilePath);
                         }
-                        courseVM.Course.Image = @"\images\course\" + fileName;
                     }
 
+                    // verifica se la directory esiste e creala se necessario
+                    if (!Directory.Exists(coursePath))
+                    {
+                        Directory.CreateDirectory(coursePath);
+                    }
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    courseVM.Course.Image = @"\images\course\" + fileName;
+                }
+
+                if (courseVM.Course.Id == 0)
+                {
                     _unitOfWork.Course.Add(courseVM.Course);
-                    _unitOfWork.Save();
                     TempData["success"] = "Corso creato correttamente";
-                    return RedirectToAction("Index");
                 }
                 else
                 {
                     _unitOfWork.Course.Update(courseVM.Course);
-                    _unitOfWork.Save();
-                    TempData["success"] = "Corso MODIFICATO correttamente";
-                    return RedirectToAction("Index");
+                    TempData["success"] = "Corso modificato correttamente";
                 }
+                _unitOfWork.Save();
+                return RedirectToAction("Index");
             }
             else
             {
                 courseVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
                 {
                     Text = u.Name,
-                    Value = u.Id.ToString(),
+                    Value = u.Id.ToString()
                 });
-
-                TempData["error"] = "Correggi i campi richiesti";
                 return View(courseVM);
             }
         }

@@ -10,8 +10,9 @@
     <div class="card-body">
         <form method="POST" enctype="multipart/form-data">
             <div class="border p-3">
-                <input asp-for="Course.Id" hidden />
- 
+@*                campi nascosti
+*@                <input asp-for="Course.Id" hidden />
+                  <input asp-for="Course.Image" hidden/>
                 <div class="form-floating py-2 col-12">
                     <input asp-for="Course.Title" class="form-control border-0 shadow px-3" />
                     <label asp-for="Course.Title" class="ms-2"></label>
