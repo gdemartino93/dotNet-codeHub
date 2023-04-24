@@ -20,7 +20,7 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
 
             return View(courseList);
         }
-        public IActionResult Create()
+        public IActionResult UpSert(int? id)
         {
             IEnumerable<SelectListItem> categoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
             {
@@ -32,10 +32,20 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
                 CategoryList = categoryList,
                 Course = new Course(),
             };
-            return View(courseVM);
+            if(id == null || id == 0)
+            {
+                return View(courseVM);
+            }
+            else
+            {
+                //update
+                courseVM.Course = _unitOfWork.Course.Get(c => c.Id == id);
+                return View(courseVM);
+            }
+
         }
         [HttpPost]
-        public IActionResult Create(CourseVM courseVM)
+        public IActionResult UpSert (CourseVM courseVM, IFormFile? file)
         {
             if(string.IsNullOrWhiteSpace(courseVM.Course.Title))
             {
@@ -49,54 +59,39 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
             }
             if (ModelState.IsValid)
             {
-                _unitOfWork.Course.Add(courseVM.Course);
-                _unitOfWork.Save();
-                TempData["success"] = "Corso creato correttamente";
-                return RedirectToAction("Index");
+                if(courseVM.Course.Id == 0)
+                {
+                    _unitOfWork.Course.Add(courseVM.Course);
+                    _unitOfWork.Save();
+                    TempData["success"] = "Corso creato correttamente";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    _unitOfWork.Course.Update(courseVM.Course);
+                    _unitOfWork.Save();
+                    TempData["success"] = "Corso MODIFICATO correttamente";
+                    return RedirectToAction("Index");
+                }
             }
             else
             {
+                if (_unitOfWork.Course.Get(n => n.Title.ToLower().Replace(" ", "") == courseVM.Course.Title.ToLower().Replace(" ", "")) != null)
+                {
+                    ModelState.AddModelError("Name", "Corso già esistente");
+                    TempData["error"] = "Correggi i campi richiesti";
+                }
+                courseVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString(),
+                });
+
                 TempData["error"] = "Correggi i campi richiesti";
-                return View();
+                return View(courseVM);
             }
         }
-        public IActionResult Edit(int? id)
-        {
-            if (id == null && id == 0)
-            {
-                return NotFound();
-            }
-            Course course = _unitOfWork.Course.Get(c => c.Id == id);
-            if (course == null)
-            {
-                return NotFound();
-            }
-            IEnumerable<SelectListItem> categoryList = _unitOfWork.Category.GetAll().Select(c => new SelectListItem
-            {
-                Text = c.Name,
-                Value = c.Id.ToString(),
-            });
-            CourseVM courseVM = new()
-            {
-                Course = course,
-                CategoryList = categoryList
-
-            };
-
-            return View(courseVM);
-        }
-        [HttpPost]
-        public IActionResult Edit(Course course)
-        {
-            if (course == null)
-            {
-                return NotFound();  
-            }
-            _unitOfWork.Course.Update(course);
-            _unitOfWork.Save();
-            TempData["success"] = "Corso modificato con successo";
-            return RedirectToAction("Index");
-        }
+        
         public IActionResult Delete(int? id)
         {
             if (id == null)

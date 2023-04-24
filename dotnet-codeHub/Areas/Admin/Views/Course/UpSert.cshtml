@@ -3,14 +3,15 @@
     <div class="card-header bg-primary bg-gradient ml-0">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="py-2 text-white">Modifica corso</h2>
+                <h2 class="py-2 text-white">@(Model.Course.Id != 0 ? "Modifica" : "Aggiungi") corso</h2>
             </div>
         </div>
     </div>
     <div class="card-body">
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             <div class="border p-3">
-                <span asp-validation-summary="All"></span>
+                <input asp-for="Course.Id" hidden />
+ 
                 <div class="form-floating py-2 col-12">
                     <input asp-for="Course.Title" class="form-control border-0 shadow px-3" />
                     <label asp-for="Course.Title" class="ms-2"></label>
@@ -22,7 +23,7 @@
                     <span asp-validation-for="Course.Description" class="text-danger"></span>
                 </div>
                 <div class="form-floating py-2 col-12">
-                    <input asp-for="Course.Text" class="form-control border-0 px-3 shadow" />
+                    <textarea asp-for="Course.Text" class="form-control border-0 px-3 shadow" ></textarea>
                     <label asp-for="Course.Text" class="ms-2"></label>
                     <span asp-validation-for="Course.Text" class="text-danger"></span>
                 </div>
@@ -37,18 +38,30 @@
                     <span asp-validation-for="Course.Price" class="text-danger"></span>
                 </div>
                 <div class="form-floating py-2 col-12">
-                    <select asp-for="@Model.Course.CategoryId" asp-items="@Model.CategoryList" class="form-select border-0 px-3 shadow">
+                    <select asp-for="@Model.Course.CategoryId" asp-items="@Model.CategoryList"  class="form-select border-0 px-3 shadow">
                         <option selected disabled> Seleziona una categoria</option>
-                    </select>
-
-
+                    </select>        
                     <label asp-for="Course.CategoryId" class="ms-2"></label>
                     <span asp-validation-for="Course.CategoryId" class="text-danger"></span>
                 </div>
+                <div class="input-group mb-3">
+                    <input type="file" class="form-control" id="inputGroupFile02">
+                    <label class="input-group-text" asp-for="Course.Image">Upload</label>
+                </div>
+
 
                 <div class="row mt-3">
                     <div class="col-6 col-md-3">
-                        <button asp-controller="Course" asp-action="Edit" class="btn btn-primary form-control">Modifica</button>
+                        @if(Model.Course.Id == 0)
+                        {
+                            <button asp-controller="Course" asp-action="Upsert" class="btn btn-primary form-control">Aggiungi</button>
+                        }
+                        else
+
+                        {
+                            <button asp-controller="Course" asp-action="Upsert" class="btn btn-primary form-control">Modifica</button>
+
+                        }
                     </div>
                     <div class="col-6 col-md-3">
                         <a asp-controller="Course" asp-action="Index" class="btn btn-secondary border  form-control">
@@ -62,6 +75,19 @@
 </div>
 
 @section Scripts{
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ]
+        });
+    </script>
     @{
         <partial name="_ValidationScriptsPartial" />
     }
