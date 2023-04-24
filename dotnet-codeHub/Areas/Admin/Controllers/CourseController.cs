@@ -42,24 +42,24 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
                 courseVM.Course = _unitOfWork.Course.Get(c => c.Id == id);
                 return View(courseVM);
             }
-
         }
+
         [HttpPost]
-        public IActionResult UpSert (CourseVM courseVM, IFormFile? file)
+        public IActionResult UpSert(CourseVM courseVM, IFormFile? file)
         {
-            if(string.IsNullOrWhiteSpace(courseVM.Course.Title))
+            if (string.IsNullOrWhiteSpace(courseVM.Course.Title))
             {
-                ModelState.AddModelError("Title","Il titolo è obbligatorio");
+                ModelState.AddModelError("Title", "Il titolo è obbligatorio");
                 TempData["error"] = "Correggi i campi richiesti";
             }
-            else if (_unitOfWork.Course.Get(n => n.Title.ToLower().Replace(" ", "") == courseVM.Course.Title.ToLower().Replace(" ", "")) != null)
+            else if (courseVM.Course.Id == 0 && _unitOfWork.Course.Get(n => n.Title.ToLower().Replace(" ", "") == courseVM.Course.Title.ToLower().Replace(" ", "")) != null)
             {
-                ModelState.AddModelError("Name", "Corso già esistente");
+                ModelState.AddModelError("Title", "Corso già esistente");
                 TempData["error"] = "Correggi i campi richiesti";
             }
             if (ModelState.IsValid)
             {
-                if(courseVM.Course.Id == 0)
+                if (courseVM.Course.Id == 0)
                 {
                     _unitOfWork.Course.Add(courseVM.Course);
                     _unitOfWork.Save();
@@ -76,11 +76,6 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
             }
             else
             {
-                if (_unitOfWork.Course.Get(n => n.Title.ToLower().Replace(" ", "") == courseVM.Course.Title.ToLower().Replace(" ", "")) != null)
-                {
-                    ModelState.AddModelError("Name", "Corso già esistente");
-                    TempData["error"] = "Correggi i campi richiesti";
-                }
                 courseVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
                 {
                     Text = u.Name,
@@ -91,7 +86,8 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
                 return View(courseVM);
             }
         }
-        
+
+
         public IActionResult Delete(int? id)
         {
             if (id == null)
