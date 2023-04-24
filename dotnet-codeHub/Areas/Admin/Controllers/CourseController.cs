@@ -73,7 +73,7 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
                         {
                             file.CopyTo(fileStream);
                         }
-                        courseVM.Course.Image = @"\image\course\" + fileName;
+                        courseVM.Course.Image = @"\images\course\" + fileName;
                     }
 
                     _unitOfWork.Course.Add(courseVM.Course);

@@ -48,9 +48,15 @@
                     <input type="file" class="form-control" name="file" id="inputGroupFile02">
                     <label class="input-group-text" asp-for="Course.Image">Upload</label>
                 </div>
-
+                @if (Model.Course.Id != 0 && Model.Course.Image != null)
+                {
+                    <div class="row">
+                        <img src="@Model.Course.Image" class="img-thumbnail mb-5" style="width:500px" />
+                    </div>
+                }
 
                 <div class="row mt-3">
+
                     <div class="col-6 col-md-3">
                         @if(Model.Course.Id == 0)
                         {
@@ -60,7 +66,6 @@
 
                         {
                             <button asp-controller="Course" asp-action="Upsert" class="btn btn-primary form-control">Modifica</button>
-
                         }
                     </div>
                     <div class="col-6 col-md-3">
