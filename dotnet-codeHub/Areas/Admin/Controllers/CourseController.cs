@@ -1,5 +1,6 @@
 ﻿using codeHub.DataAccess.Repository.IRepository;
 using codeHub.Models;
+using codeHub.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -26,26 +27,29 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
                 Text = u.Name,
                 Value = u.Id.ToString(),
             });
-            //ViewBag.CategoryList = categoryList;
-            ViewData["CategoryList"] = categoryList;
-            return View();
+            CourseVM courseVM = new()
+            {
+                CategoryList = categoryList,
+                Course = new Course(),
+            };
+            return View(courseVM);
         }
         [HttpPost]
-        public IActionResult Create(Course course)
+        public IActionResult Create(CourseVM courseVM)
         {
-            if(string.IsNullOrWhiteSpace(course.Title))
+            if(string.IsNullOrWhiteSpace(courseVM.Course.Title))
             {
                 ModelState.AddModelError("Title","Il titolo è obbligatorio");
                 TempData["error"] = "Correggi i campi richiesti";
             }
-            else if (_unitOfWork.Course.Get(n => n.Title.ToLower().Replace(" ", "") == course.Title.ToLower().Replace(" ", "")) != null)
+            else if (_unitOfWork.Course.Get(n => n.Title.ToLower().Replace(" ", "") == courseVM.Course.Title.ToLower().Replace(" ", "")) != null)
             {
                 ModelState.AddModelError("Name", "Corso già esistente");
                 TempData["error"] = "Correggi i campi richiesti";
             }
             if (ModelState.IsValid)
             {
-                _unitOfWork.Course.Add(course);
+                _unitOfWork.Course.Add(courseVM.Course);
                 _unitOfWork.Save();
                 TempData["success"] = "Corso creato correttamente";
                 return RedirectToAction("Index");
@@ -67,8 +71,19 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            IEnumerable<SelectListItem> categoryList = _unitOfWork.Category.GetAll().Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.Id.ToString(),
+            });
+            CourseVM courseVM = new()
+            {
+                Course = course,
+                CategoryList = categoryList
 
-            return View(course);
+            };
+
+            return View(courseVM);
         }
         [HttpPost]
         public IActionResult Edit(Course course)
@@ -89,7 +104,17 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
                 return NotFound();
             }
             Course course = _unitOfWork.Course.Get(c => c.Id == id);
-            return View(course);
+            IEnumerable<SelectListItem> categoryList = _unitOfWork.Category.GetAll().Select(c => new SelectListItem
+            {
+               Text= c.Name,
+               Value = c.Id.ToString(),
+            });
+            CourseVM courseVM = new()
+            {
+                Course = course,
+                CategoryList = categoryList
+            };
+            return View(courseVM);
         }
         [HttpPost]
         [ActionName("Delete")]
