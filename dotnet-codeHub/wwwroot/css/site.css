@@ -9,4 +9,15 @@
     display: flex;
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
+#tblData tr{
+    vertical-align:middle;
+}
+#tblData{
+    padding-top:30px;
+}
+/*applica il selettore ad ogni 5 figlio td di tr */ 
+tr td:nth-child(5n) {
+    display: flex;
+    justify-content: center;
+}
 
