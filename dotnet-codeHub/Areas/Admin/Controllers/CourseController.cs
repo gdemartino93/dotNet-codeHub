@@ -85,13 +85,6 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
                             System.IO.File.Delete(oldFilePath);
                         }
                     }
-
-                    // verifica se la directory esiste e creala se necessario
-                    if (!Directory.Exists(coursePath))
-                    {
-                        Directory.CreateDirectory(coursePath);
-                    }
-
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         file.CopyTo(fileStream);
@@ -157,5 +150,14 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
             TempData["success"] = "Corso eliminato con successo";
             return RedirectToAction("Index"); 
         }
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            IEnumerable<Course> courseList = _unitOfWork.Course.GetAllCoursesWithCategories();
+            return Json(new { data =  courseList });
+
+        }
+        #endregion
     }
 }

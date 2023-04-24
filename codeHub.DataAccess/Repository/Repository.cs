@@ -18,6 +18,7 @@ namespace codeHub.DataAccess.Repository
         {
             _db =  db;
             this.dbSet = _db.Set<T>();
+            _db.Courses.Include(c => c.Category);
         }
 
         public void Add(T entity)

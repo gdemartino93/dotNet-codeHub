@@ -9,6 +9,8 @@ namespace codeHub.DataAccess.Repository.IRepository
 {
     public interface ICourseRepository : IRepository<Course>
     {
+        IEnumerable<Course> GetAllCoursesWithCategories();
+
         void Update(Course course);
     }
 }
