@@ -1,9 +1,10 @@
 ﻿using codeHub.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace codeHub.DataAccess.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Course> Courses { get; set; }
@@ -15,6 +16,7 @@ namespace codeHub.DataAccess.Data
         //seeding database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Category>().HasData(
                 new Category() { Id = 1, Name = "Java", Description = "Java World", DisplayOrder = 1, IsVisible = true },
                 new Category() { Id = 2, Name = "C#", Description = "C# World", DisplayOrder = 1, IsVisible = true },
