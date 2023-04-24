@@ -1,8 +1,26 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<Course>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="ag-format-container">
+        <div class="ag-courses_box">
+
+        @foreach (var course in Model)
+        {
+            <div class="ag-courses_item">
+                <a href="#" class="ag-courses-item_link">
+                    <div class="ag-courses-item_bg"></div>
+
+                    <div class="ag-courses-item_title">
+                       @course.Title
+                    </div>
+
+                    <div class="ag-courses-item_date-box">
+                        Linguaggio:
+                        <span class="ag-courses-item_date">
+                            @course.Category.
+                        </span>
+                    </div>
+                </a>
+            </div>
+        }
+        </div>
+    </div>

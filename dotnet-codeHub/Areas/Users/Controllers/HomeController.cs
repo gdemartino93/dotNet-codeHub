@@ -1,4 +1,5 @@
-﻿using codeHub.Models;
+﻿using codeHub.DataAccess.Repository.IRepository;
+using codeHub.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -8,15 +9,18 @@ namespace dotnet_codeHub.Areas.Users.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,IUnitOfWork unitOfWork)
         {
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Course> courseList = _unitOfWork.Course.GetAllCoursesWithCategories();
+            return View(courseList);
         }
 
         public IActionResult Privacy()
