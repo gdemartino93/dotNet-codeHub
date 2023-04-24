@@ -3,13 +3,14 @@
     <div class="card-header bg-primary bg-gradient ml-0">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="py-2 text-white">Aggiungi categoria</h2>
+                <h2 class="py-2 text-white">Aggiungi corso</h2>
             </div>
         </div>
     </div>
     <div class="card-body">
         <form method="POST">
             <div class="border p-3">
+                <span asp-validation-summary="All"></span>
                 <div class="form-floating py-2 col-12">
                     <input asp-for="Title" class="form-control border-0 shadow px-3" />
                     <label asp-for="Title" class="ms-2"></label>
@@ -36,9 +37,9 @@
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
                 <div class="form-floating py-2 col-12">
-                    <select asp-for="CategoryId" asp-items="ViewBag.CategoryList" class="form-control border-0 px-3 shadow">
+  @*                  <select asp-for="CategoryId" asp-items="ViewBag.CategoryList" class="form-select border-0 px-3 shadow">*@
+                    <select asp-for="CategoryId" asp-items="@(ViewData["CategoryList"] as IEnumerable<SelectListItem>)" class="form-select border-0 px-3 shadow">
                         <option selected disabled> Seleziona una categoria</option>
-                      
                     </select>
                      
                  

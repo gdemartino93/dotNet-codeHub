@@ -26,7 +26,8 @@ namespace dotnet_codeHub.Areas.Admin.Controllers
                 Text = u.Name,
                 Value = u.Id.ToString(),
             });
-            ViewBag.CategoryList = categoryList;
+            //ViewBag.CategoryList = categoryList;
+            ViewData["CategoryList"] = categoryList;
             return View();
         }
         [HttpPost]
