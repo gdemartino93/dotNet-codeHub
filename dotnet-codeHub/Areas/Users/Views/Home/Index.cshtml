@@ -12,12 +12,12 @@
                     <div class="ag-courses-item_title">
                        @course.Title
                     </div>
-
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@course.Id"> VAI </a>
                     <div class="ag-courses-item_date-box">
                         Linguaggio:
                         <span class="ag-courses-item_date">
                             @course.Category.
-                        </span>
+                        </span>  
                     </div>
                 </a>
             </div>

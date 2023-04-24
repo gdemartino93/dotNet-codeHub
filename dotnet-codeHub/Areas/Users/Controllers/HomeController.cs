@@ -23,6 +23,12 @@ namespace dotnet_codeHub.Areas.Users.Controllers
             return View(courseList);
         }
 
+        public IActionResult Details(int id)
+        {
+            Course course = _unitOfWork.Course.GetAllCoursesWithCategories().FirstOrDefault(c => c.Id == id);
+            return View(course);
+        }
+
         public IActionResult Privacy()
         {
             return View();
