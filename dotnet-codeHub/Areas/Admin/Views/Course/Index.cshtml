@@ -21,57 +21,27 @@
                 </div>
             </div>
 
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped" id="tblData">
                 <thead>
                     <tr>
-                        <th class="col">
+                        <th>
                             Titolo
                         </th>
-                        <th class="col">
+                        <th>
                             Descrizione
                         </th>
-                        <th class="col">
+                        <th>
                             Prezzo
                         </th>
-                        <th class="col">
+                        <th>
+                            Linguaggio
+                        </th>
+                        <th>
                             Data di Creazione
                         </th>
-                        <th></th>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var obj in Model.OrderBy(u => u.Id))
-                    {
-                        <tr class="table-Course align-middle">
-                            <td style="word-wrap:anywhere" >@obj.Title</td>
-                            <td>
-                                @obj.Description
-                            </td>
-                            <td>
-                                @obj.Price &euro;
-                            </td>
-                            <td>
-                                @obj.CreatedAt;
-                            </td>
-                            <td class="text-center">
-                                <div class="btn-group" role="group">
-                                    <a asp-controller="Course" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-                                        <i class="bi bi-pencil-square"></i> Modifica
-                                    </a>
-                                    <a asp-controller="Course" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-danger mx-2">
-                                        <i class="bi bi-trash-fill"></i> Cancella
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
+                </thead>           
             </table>
-
-
-
-
-
         </div>
     </div>
 }
@@ -87,5 +57,7 @@ else
         <h2>Nessuna Corso presente</h2>
     </div>
 }
-
+@section Scripts{
+<script src="~/js/course.js"></script>
+}
 
