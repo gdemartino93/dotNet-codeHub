@@ -1,7 +1,7 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Registrazione";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -9,8 +9,20 @@
 <div class="row">
     <div class="col-md-4">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
+            <h2>Crea un nuovo account</h2>
             <hr />
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Name" class="form-control"  aria-required="true" placeholder="Inserisci il tuo nome" />
+                <label asp-for="Input.Name">Nome</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Lastname" class="form-control" aria-required="true" placeholder="Inserisci il tuo cognome" />
+                <label asp-for="Input.Lastname">Cognome</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.City" class="form-control" aria-required="true" placeholder="Inserisci la città" />
+                <label asp-for="Input.City">Città</label>
+            </div>
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
@@ -24,8 +36,13 @@
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                <label asp-for="Input.ConfirmPassword">Conferma Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select" autocomplete="new-password" aria-required="true" placeholder="password">
+                    <option disabled selected >Seleziona il tuo ruolo</option>
+                </select>
             </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>

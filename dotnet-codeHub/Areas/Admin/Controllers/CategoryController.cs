@@ -1,12 +1,15 @@
 ﻿using codeHub.DataAccess.Data;
 using codeHub.DataAccess.Repository.IRepository;
 using codeHub.Models;
+using codeHub.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace dotnet_codeHub.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = StaticData.Role_Teacher)]
     public class CategoryController : Controller
     {
         protected readonly IUnitOfWork _unitOfWork;

@@ -8,7 +8,7 @@ namespace codeHub.Utility
 {
     public static class StaticData
     {
-        public const string Role_User = "User";
-        public const string Role_Admin = "Admin";
+        public const string Role_Student = "Studente";
+        public const string Role_Teacher = "Docente";
     }
 }
