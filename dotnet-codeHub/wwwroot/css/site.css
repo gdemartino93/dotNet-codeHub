@@ -170,16 +170,13 @@ tr td:nth-child(5n) {
         font-size: 16px;
     }
 }
-.details-wrapper {
-   
-    
-    padding: 10px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+
 .single-card-course {
     background: #37a0f4;
-    color:white
+    color:white;
+
+}
+.my-card-details{
+    border-radius:20px;
+
 }
